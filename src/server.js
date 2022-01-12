@@ -5,6 +5,7 @@ dotenv.config();
 
 import { DbConfig } from './config/db_config.js';
 import { MongoDB } from './config/db_connection.js';
+import { indexRoutes } from './routers/index.routes.js';
 
 class Server {
     static app;
@@ -23,7 +24,7 @@ class Server {
     }
 
     routes() {
-        // this.app.use('/api', indexRoutes.router);
+        this.app.use('/api', indexRoutes.router);
     }
 
     start() {

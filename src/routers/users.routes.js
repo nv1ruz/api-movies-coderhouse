@@ -9,6 +9,7 @@ class UsersRoutes {
 
     routes() {
         this.router.post('/login', usersController.login);
+        this.router.post('/register', usersController.register);
     }
 }
 

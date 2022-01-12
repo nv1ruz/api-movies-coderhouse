@@ -26,8 +26,7 @@ class UsersController {
                 });
             }
 
-            const expiresIn = 60;
-            const token = await generateJWT(user.id, expiresIn);
+            const token = await generateJWT(user.id);
 
             const data = {
                 id: user.id,
@@ -40,7 +39,6 @@ class UsersController {
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
                 accessToken: token,
-                expiresIn: expiresIn,
             };
 
             return res.status(200).json({
@@ -113,8 +111,7 @@ class UsersController {
                 });
             }
 
-            const expiresIn = 60;
-            const token = await generateJWT(userData.id, expiresIn);
+            const token = await generateJWT(user.id);
 
             const data = {
                 id: user.id,
@@ -127,7 +124,6 @@ class UsersController {
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
                 accessToken: token,
-                expiresIn: expiresIn,
             };
 
             return res.status(200).json({

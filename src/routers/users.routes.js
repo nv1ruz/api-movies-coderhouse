@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { usersController } from '../controllers/users.controller.js';
+import { validateJWT } from '../middlewares/validate_jwt.js';
 
 class UsersRoutes {
     constructor() {
@@ -10,6 +11,7 @@ class UsersRoutes {
     routes() {
         this.router.post('/login', usersController.login);
         this.router.post('/register', usersController.register);
+        this.router.get('/renew', validateJWT, usersController.renewToken);
     }
 }
 

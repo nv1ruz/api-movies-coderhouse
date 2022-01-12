@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { cartsRoutes } from './carts.routes.js';
 import { usersRoutes } from './users.routes.js';
 
 class IndexRoutes {
@@ -9,6 +10,7 @@ class IndexRoutes {
 
     routes() {
         this.router.use('/users', usersRoutes.router);
+        this.router.use('/carts', cartsRoutes.router);
     }
 }
 

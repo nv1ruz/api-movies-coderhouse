@@ -9,8 +9,10 @@ class ProductsRoutes {
 
     routes() {
         this.router.get('/', productsController.getProducts);
+        this.router.get('/:productId', productsController.getProductById);
         this.router.post('/', productsController.addProduct);
         this.router.put('/:productId', productsController.updateProduct);
+        this.router.delete('/:productId', productsController.deleteProduct);
     }
 }
 

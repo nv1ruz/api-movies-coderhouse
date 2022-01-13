@@ -3,12 +3,40 @@ import { productModel } from '../models/products.js';
 class ProductsController {
     async getProducts(req, res) {
         try {
-            const response = await productModel.find({ isEnabled: true });
+            const products = await productModel.find({ isEnabled: true });
 
             return res.status(200).json({
                 ok: true,
                 message: 'Operación exitosa',
-                data: response,
+                data: products,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                ok: false,
+                message: 'Ha ocurrido un error interno',
+                path: `/products`,
+                method: 'GET',
+            });
+        }
+    }
+
+    async getProductById(req, res) {
+        const productId = req.params.productId;
+
+        try {
+            const product = await productModel.findById(productId);
+            if (!product) {
+                return res.status(404).json({
+                    ok: false,
+                    message: 'Producto no encontrado',
+                });
+            }
+
+            return res.status(200).json({
+                ok: true,
+                message: 'Operación exitosa',
+                data: product,
             });
         } catch (error) {
             console.log(error);
@@ -53,7 +81,7 @@ class ProductsController {
             if (!product) {
                 return res.status(404).json({
                     ok: false,
-                    message: 'El producto no existe',
+                    message: 'Producto no encontrado',
                 });
             }
 
@@ -61,7 +89,7 @@ class ProductsController {
                 { _id: productId },
                 { $set: productData }
             );
-            console.log(response);
+
             return res.status(200).json({
                 ok: true,
                 message: 'Operación exitosa',
@@ -74,8 +102,40 @@ class ProductsController {
             return res.status(500).json({
                 ok: false,
                 message: 'Ha ocurrido un error interno',
-                path: `/products`,
+                path: `/products/${productId}`,
                 method: 'PUT',
+            });
+        }
+    }
+
+    async deleteProduct(req, res) {
+        const productId = req.params.productId;
+
+        try {
+            const product = await productModel.findById(productId);
+            if (!product) {
+                return res.status(404).json({
+                    ok: false,
+                    message: 'Producto no encontrado',
+                });
+            }
+
+            const response = await productModel.findByIdAndDelete(productId);
+
+            return res.status(200).json({
+                ok: true,
+                message: 'Operación exitosa',
+                data: {
+                    deleted: true,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                ok: false,
+                message: 'Ha ocurrido un error interno',
+                path: `/products/${productId}`,
+                method: 'DELETE',
             });
         }
     }

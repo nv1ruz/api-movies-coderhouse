@@ -28,4 +28,10 @@ const cartSchema = new mongoose.Schema(
     }
 );
 
+cartSchema.method('toJSON', function () {
+    const { __v, _id, ...object } = this.toObject();
+    object.id = _id;
+    return object;
+});
+
 export const cartModel = mongoose.model('carts', cartSchema);

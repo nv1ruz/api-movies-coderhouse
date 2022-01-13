@@ -8,8 +8,8 @@ class CartsRoutes {
     }
 
     routes() {
-        this.router.post('/', cartsController.create);
-        this.router.get('/', cartsController.get);
+        this.router.post('/', cartsController.addCart);
+        this.router.get('/:cartId', cartsController.getCartById);
     }
 }
 

@@ -1,7 +1,7 @@
 import { cartModel } from '../models/carts.js';
 
 class CartsController {
-    async create(req, res) {
+    async addCart(req, res) {
         const cartData = req.body;
 
         try {
@@ -18,25 +18,31 @@ class CartsController {
             return res.status(500).json({
                 ok: false,
                 message: 'Ha ocurrido un error interno',
+                path: `/carts`,
+                method: 'POST',
             });
         }
     }
 
-    async get(req, res) {
+    async getCartById(req, res) {
+        const cartId = req.params.cartId;
+
         try {
-            const asd = await cartModel.find({ id_item: '20' });
-            // const asd = await cartModel.findById('61df3c56f092e87370e97ec5');
-            console.log(asd);
+            // const asd = await cartModel.find({ id_item: '20' });
+            const cart = await cartModel.findById(cartId);
+            console.log(cart);
             return res.status(200).json({
                 ok: true,
                 message: 'Operación exitosa',
-                data: asd,
+                data: cart,
             });
         } catch (error) {
             console.log(error);
             return res.status(500).json({
                 ok: false,
                 message: 'Ha ocurrido un error interno',
+                path: `/carts/${cartId}`,
+                method: 'GET',
             });
         }
     }

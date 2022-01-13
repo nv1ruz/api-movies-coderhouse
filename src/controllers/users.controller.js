@@ -100,7 +100,7 @@ class UsersController {
     }
 
     async renewToken(req, res) {
-        const userId = req.decoded.user_id;
+        const userId = req.decoded.userId;
 
         try {
             const user = await userModel.findOne({ _id: userId });

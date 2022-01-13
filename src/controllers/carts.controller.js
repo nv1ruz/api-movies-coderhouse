@@ -2,18 +2,16 @@ import { cartModel } from '../models/carts.js';
 
 class CartsController {
     async create(req, res) {
-        const carrito = req.body;
+        const cartData = req.body;
 
         try {
-            console.log(carrito);
-            const asd = await cartModel.create(carrito);
-
-            console.log(asd);
+            console.log(cartData);
+            const response = await cartModel.create(cartData);
 
             return res.status(200).json({
                 ok: true,
                 message: 'Operación exitosa',
-                data: asd,
+                data: response,
             });
         } catch (error) {
             console.log(error);

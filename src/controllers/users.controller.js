@@ -26,7 +26,7 @@ class UsersController {
                 });
             }
 
-            const token = await generateJWT(user.id);
+            const token = await generateJWT(user.id, user.isAdmin);
 
             const data = {
                 id: user.id,
@@ -75,14 +75,12 @@ class UsersController {
             }
 
             const userData = await userModel.create(newUser);
-            const expiresIn = 60;
-            const token = await generateJWT(userData.id, expiresIn);
+            const token = await generateJWT(userData.id, false);
 
             const data = {
                 name: userData.name,
                 email: userData.email,
                 accessToken: token,
-                expiresIn: expiresIn,
             };
 
             return res.status(200).json({

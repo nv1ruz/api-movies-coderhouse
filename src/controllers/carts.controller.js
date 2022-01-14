@@ -46,6 +46,59 @@ class CartsController {
             });
         }
     }
+
+    async getCartsByUserId(req, res){
+        const userId = req.params.userId;
+
+        try {
+            const carts = await cartModel.find({user: userId})
+                .populate('user')
+                .populate({
+                    path: 'cart',
+                    populate: {path: 'product'}
+                });
+            
+            return res.status(200).json({
+                ok: true,
+                message: 'Operación exitosa',
+                data: carts,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                ok: false,
+                message: 'Ha ocurrido un error interno',
+                path: `/carts/last_purchases/user/${userId}`,
+                method: 'GET',
+            });
+        }
+    }
+
+    async getLastCarts(req, res){
+        try {
+            const carts = await cartModel.find()
+                .populate('user')
+                .populate({
+                    path: 'cart',
+                    populate: {path: 'product'}
+                })
+                .sort({createdAt: -1});
+            
+            return res.status(200).json({
+                ok: true,
+                message: 'Operación exitosa',
+                data: carts,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                ok: false,
+                message: 'Ha ocurrido un error interno',
+                path: `/carts/last_purchases/all`,
+                method: 'GET',
+            });
+        }
+    }
 }
 
 export const cartsController = new CartsController();
